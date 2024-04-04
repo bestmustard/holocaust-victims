@@ -1,221 +1,74 @@
 ---
-title: "My title"
-subtitle: "My subtitle if needed"
+title: "Emphasizing Humanity in the Statistical Analysis of Auschwitz Victims"
 author: 
-  - First author
-  - Another author
-thanks: "Code and data are available at: LINK."
+  - Victor Ma
+thanks: "Code and data are available at: https://github.com/bestmustard/holocaust-victims. Interactive graphs and tables are available at: https://f0t0w3-victor-ma.shinyapps.io/holocaust-victims-shinyapp/ and https://f0t0w3-victor-ma.shinyapps.io/aushwitz-prisoners-deports/"
 date: today
 date-format: long
-abstract: "First sentence. Second sentence. Third sentence. Fourth sentence."
 format: pdf
 number-sections: true
 bibliography: references.bib
 ---
 
-```{r}
-#| include: false
-#| warning: false
-#| message: false
+# Data
 
-library(tidyverse)
-library(palmerpenguins)
-```
+In my analysis of the Holocaust victims killed at Auschwitz concentration camp, I pull data from 70.auschwitz.org- a website dedicated to commemorating Auschwitz victims and survivors which provides relevant data on the demographics of victims, prisoners, and those who were deported. This site is operated by Państwowe Muzeum Auschwitz-Birkenau w Oświęcimiu, a museum on the site of the concentration camp. Visualizations with the shiny package are written in the data manipulation language R [@aus, @shiny, @citeR].
 
+The shiny app provides an interactive graph and table of the number of victims killed by nationality. The categories are separated into: Jews, Poles, Roma(Gypsies), Soviet Prisoners of War, and Other Groups. This categorization is not accurate to what we would call nationality today- "Jews" are better described as an ethnoreligious group and "Roma Gypsies" are an ethnic group. From the data, we can see that 85% of the deportees were classified was Jewish. 10.8% were "Poles", or Polish and the other groups took up a collective 4.7%. Despite Polish people being the second most relevant figure and almost 10 times greater than all other groups respectively, they had the lowest percentage of deaths at 46%. According to the museum site, 900 of the 1.1 million total deaths were Jews murdered in gas chambers immediately on arrival [@aus]. 
 
-# Introduction
-
-You can and should cross-reference sections and sub-sections. We use @citeR and @rohan.
-
-The remainder of this paper is structured as follows. @sec-data....
+The below tables give us many more details in terms of demographics, which are replications of the tables on the Auschwitz museum site [@aus]. They can also be found at: https://f0t0w3-victor-ma.shinyapps.io/aushwitz-prisoners-deports/.
 
 
-
-# Data {#sec-data}
-
-Some of our data is of penguins (@fig-bills), from @palmerpenguins.
-
-```{r}
-#| label: fig-bills
-#| fig-cap: Bills of penguins
-#| echo: false
-
-ggplot(penguins, aes(x = island, fill = species)) +
-  geom_bar(alpha = 0.8) +
-  scale_fill_manual(values = c("darkorange","purple","cyan4"),
-                    guide = "none") +
-  theme_minimal() +
-  facet_wrap(~species, ncol = 1) +
-  coord_flip()
-```
-
-Talk more about it.
-
-And also planes (@fig-planes). (You can change the height and width, but don't worry about doing that until you have finished every other aspect of the paper - Quarto will try to make it look nice and the defaults usually work well once you have enough text.)
-
-```{r}
-#| label: fig-planes
-#| fig-cap: Relationship between wing length and width
-#| echo: false
-#| warning: false
-#| message: false
-
-analysis_data <- read_csv(here::here("data/analysis_data/analysis_data.csv"))
-
-analysis_data |> 
-  ggplot(aes(x = width, y = length)) +
-  geom_point(alpha = 0.8) +
-  theme_minimal() +
-  labs(x = "Wing width (mm)",
-       y = "Wing length (mm)")
-```
-
-Talk way more about it. 
+| Country of Origin                                 | Number  |
+|---------------------------------------------------|--------:|
+| Hungary (according to the borders during the war) | 430,000 |
+| Poland                                            | 300,000 |
+| France                                            |  69,000 |
+| The Netherlands                                   |  60,000 |
+| Greece                                            |  55,000 |
+| The Protectorate of Bohemia and Moravia (Theresienstadt) |  46,000 |
+| Concentration camps and other centers             |  34,000 |
+| Slovakia (according to the borders during the war) |  27,000 |
+| Belgium                                           |  25,000 |
+| Germany and Austria                               |  23,000 |
+| Yugoslavia                                        |  10,000 |
+| Italy                                             |   7,500 |
+| Norway                                            |     690 |
+: Jews Deported to Auschwitz by Country of Origin {#tbl-jews}
 
 
+| Nationality        | Number    |
+|--------------------|----------:|
+| Jews               | 200,000   |
+| Poles              | 140,000   |
+| Roma               | 21,000    |
+| Soviet captives    | 12,000    |
+| Czech              | 9,000     |
+| Belarussian        | 6,000     |
+| German             | 4,000     |
+| French             | 4,000     |
+| Russian            | 1,500     |
+| Yugoslavian        | 800       |
+| Ukrainian          | 500       |
+| Other              | 200       |
 
-# Model
+: Prisoners by Ethnic Background {#tbl-pris}
 
-The goal of our modelling strategy is twofold. Firstly,...
-
-Here we briefly describe the Bayesian analysis model used to investigate... Background details and diagnostics are included in [Appendix -@sec-model-details].
-
-## Model set-up
-
-Define $y_i$ as the number of seconds that the plane remained aloft. Then $\beta_i$ is the wing width and $\gamma_i$ is the wing length, both measured in millimeters.  
-
-\begin{align} 
-y_i|\mu_i, \sigma &\sim \mbox{Normal}(\mu_i, \sigma) \\
-\mu_i &= \alpha + \beta_i + \gamma_i\\
-\alpha &\sim \mbox{Normal}(0, 2.5) \\
-\beta &\sim \mbox{Normal}(0, 2.5) \\
-\gamma &\sim \mbox{Normal}(0, 2.5) \\
-\sigma &\sim \mbox{Exponential}(1)
-\end{align}
-
-We run the model in R [@citeR] using the `rstanarm` package of @rstanarm. We use the default priors from `rstanarm`.
-
-
-### Model justification
-
-We expect a positive relationship between the size of the wings and time spent aloft. In particular...
-
-We can use maths by including latex between dollar signs, for instance $\theta$.
-
-
-# Results
-
-Our results are summarized in @tbl-modelresults.
-
-```{r}
-#| echo: false
-#| eval: true
-#| warning: false
-#| message: false
-
-library(rstanarm)
-
-first_model <-
-  readRDS(file = here::here("models/first_model.rds"))
-```
-
-```{r}
-#| echo: false
-#| eval: true
-#| label: tbl-modelresults
-#| tbl-cap: "Explanatory models of flight time based on wing width and wing length"
-#| warning: false
-
-modelsummary::modelsummary(
-  list(
-    "First model" = first_model
-  ),
-  statistic = "mad",
-  fmt = 2
-)
-```
-
-
-
+From @tbl-jews, we can see that the highest number of deportees came from Hungary and Poland, with a great disparity in numbers compared to the next highest country being France. According to Yehuda Bauer's "Rethinking the Holocaust", Hungary had the highest remaining population of Jewish people at the time of German invasion, with a population o 825,000 [@bauer]. This placement also made sense geographically given the proximity of Auschwitz to Hungary. 
 
 # Discussion
 
-## First discussion point {#sec-first-point}
+When we deal with data, we look for trends to explore, and patterns to extrapolate from. However, in the case of horrific events like this, it can be insensitive to represent profound human tragedy through a cold and detached medium. While on one hand such quantification is important for getting the history right and understanding it, on the other hand, it poses the danger of turning people into nothing but raw statistics. This is a point most scholars voice with regard to the ethics of data. Comparing the demographic sizes of deportees and prisoners gives us a stark reminder of the genocide's targeted nature. 69% of the prisoners, comprised completely of Jews, died upon arrival. Through data we can group these people by their religion and cause of death, but its important to remember them as more than numbers, recognizing their humanity and the lives they lived.
 
-If my paper were 10 pages, then should be be at least 2.5 pages. The discussion is a chance to show off what you know and what you learnt from all this. 
+Translating the life narratives into data points of human beings is a difficult exercise which seems to underline a friction in historic and sociological research. How does one reconcile the need for completely detailed analysis while giving thought to individual human experiences? This is the dual moral from statistical analyses that scholars such as Joanna Bourke make: although they are very useful to reveal the large-scale pattern of violence, they at the same time carry with them a moral double risk of anonymizing the subject, so as to be able to aid commemoration [@bourke]. This challenge is not unique to Holocaust studies but is a factor in all efforts to quantify human suffering.
 
-## Second discussion point
+Eviatar Zerubavel's work on social memory reminds us that remembering can be very selective, as groups can choose what kind of memories to keep; he points out that quantification can be revealing or can be obfuscating with regard to events in history [@zerubavel]. This is also what the narrative out of the data measures and gets reported in statistical terms.
 
-## Third discussion point
+The project approach to the visualization of Auschwitz victim data carries with it a kind of balance between quantification, required for the analytic utility, and sensitivities to the deep individuality of the victims. Kieran Healy reflects on data analysis and points out to very serious ethical responsibilities of handling data about human lives [@healy2020]. He notes that though data can sometimes first come off as something abstract and faceless, in reality, it is the representation of real people and communities with their stories and suffering.
 
-## Weaknesses and next steps
-
-Weaknesses and next steps should also be included.
-
-\newpage
-
-\appendix
-
-# Appendix {-}
-
-
-# Additional data details
-
-# Model details {#sec-model-details}
-
-## Posterior predictive check
-
-In @fig-ppcheckandposteriorvsprior-1 we implement a posterior predictive check. This shows...
-
-In @fig-ppcheckandposteriorvsprior-2 we compare the posterior with the prior. This shows... 
-
-```{r}
-#| eval: true
-#| echo: false
-#| message: false
-#| warning: false
-#| label: fig-ppcheckandposteriorvsprior
-#| layout-ncol: 2
-#| fig-cap: "Examining how the model fits, and is affected by, the data"
-#| fig-subcap: ["Posterior prediction check", "Comparing the posterior with the prior"]
-
-pp_check(first_model) +
-  theme_classic() +
-  theme(legend.position = "bottom")
-
-posterior_vs_prior(first_model) +
-  theme_minimal() +
-  scale_color_brewer(palette = "Set1") +
-  theme(legend.position = "bottom") +
-  coord_flip()
-```
-
-## Diagnostics
-
-@fig-stanareyouokay-1 is a trace plot. It shows... This suggests...
-
-@fig-stanareyouokay-2 is a Rhat plot. It shows... This suggests...
-
-```{r}
-#| echo: false
-#| eval: true
-#| message: false
-#| warning: false
-#| label: fig-stanareyouokay
-#| fig-cap: "Checking the convergence of the MCMC algorithm"
-#| fig-subcap: ["Trace plot", "Rhat plot"]
-#| layout-ncol: 2
-
-plot(first_model, "trace")
-
-plot(first_model, "rhat")
-```
-
-
-
-\newpage
-
+This project is not just an exercise in data analysis but a tribute to the victims it represents. Using data about such a horror reminds data scientists of the importance of retaining a fair respect for limitations and potentials for dehumanization. It serves as a reminder that behind every data point lies a human story, deserving of remembrance and dignity.
 
 # References
 
-
+::: {#refs}
+:::
